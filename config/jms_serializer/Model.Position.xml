@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="OrangeData\Model\Position" exclusion-policy="NONE">
+        <property name="text" type="string"/>
+        <property name="quantity" type="float"/>
+        <property name="price" type="float"/>
+        <property name="tax" type="int"/>
+        <property name="paymentMethodType" type="int" serialized-name="paymentMethodType"/>
+        <property name="paymentSubjectType" type="int" serialized-name="paymentSubjectType"/>
+    </class>
+</serializer>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="OrangeData\Model\Order" exclusion-policy="NONE">
+        <property name="id" type="uuid"/>
+        <property name="inn" type="string"/>
+        <property name="group" type="string"/>
+        <property name="callbackUrl" type="string" serialized-name="callbackUrl"/>
+        <property name="content" type="OrangeData\Model\Content"/>
+        <virtual-property method="getKey" name="key"/>
+    </class>
+</serializer>

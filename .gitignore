@@ -1,0 +1,10 @@
+!.gitkeep
+*~
+
+.idea
+.nbproject
+/vendor/
+
+/tests/_output/*
+/tests/_support/_generated/*
+/phpunit.xml

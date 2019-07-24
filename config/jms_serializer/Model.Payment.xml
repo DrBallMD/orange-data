@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="OrangeData\Model\Payment" exclusion-policy="NONE">
+        <property name="type" type="int"/>
+        <property name="amount" type="float"/>
+    </class>
+</serializer>

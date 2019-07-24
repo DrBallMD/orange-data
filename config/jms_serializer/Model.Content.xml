@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="OrangeData\Model\Content" exclusion-policy="NONE">
+        <property name="type" type="int"/>
+        <property name="customerContact" type="string" serialized-name="customerContact"/>
+        <property name="positions" type="array<OrangeData\Model\Position>"/>
+        <property name="checkClose" type="OrangeData\Model\CheckClose" serialized-name="checkClose"/>
+    </class>
+</serializer>
