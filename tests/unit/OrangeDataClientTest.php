@@ -61,7 +61,7 @@ class OrangeDataClientTest extends TestCase
             ],
             'order_in_bad' => [
                 $this->createOrder('1234517890'),
-                201,
+                400,
             ],
         ];
     }
