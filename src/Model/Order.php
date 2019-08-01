@@ -8,6 +8,7 @@ namespace OrangeData\Model;
 use Exception;
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Class Order
@@ -17,7 +18,7 @@ class Order implements JsonSerializable
 {
 
     /**
-     * @var Uuid
+     * @var UuidInterface
      */
     private $id;
 
@@ -78,9 +79,9 @@ class Order implements JsonSerializable
     }
 
     /**
-     * @return Uuid
+     * @return UuidInterface
      */
-    public function getId(): Uuid
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
