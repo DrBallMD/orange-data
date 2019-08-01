@@ -49,14 +49,14 @@ class Position implements JsonSerializable
     /**
      * Position constructor.
      *
-     * @param $text
+     * @param string $text
      * @param float $quantity
      * @param float $price
      * @param int $tax
      * @param int $paymentMethodType
      * @param int $paymentSubjectType
      */
-    public function __construct($text, float $quantity, float $price, int $tax, int $paymentMethodType, int $paymentSubjectType)
+    public function __construct(string $text, float $quantity, float $price, int $tax, int $paymentMethodType, int $paymentSubjectType)
     {
         $this->text = htmlspecialchars(substr($text, 0, 128));
         $this->quantity = $quantity;

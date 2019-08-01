@@ -33,6 +33,9 @@ abstract class AbstractOrangeDataRequest implements OrangeDataRequestInterface
         try {
             $r = $this->client->request($method, $uri, $options);
         } catch (ClientException $e) {
+            if (!$e->hasResponse()) {
+                throw $e;
+            }
             $r = $e->getResponse();
         }
 
