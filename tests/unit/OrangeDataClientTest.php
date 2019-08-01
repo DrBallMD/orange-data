@@ -5,7 +5,6 @@
 
 namespace OrangeData\Tests\unit;
 
-use DateTimeImmutable;
 use Exception;
 use GuzzleHttp\Client;
 use OrangeData\Client\OrangeDataClient;
@@ -15,6 +14,7 @@ use OrangeData\Model\Order;
 use OrangeData\Model\Payment;
 use OrangeData\Model\Position;
 use PHPUnit\Framework\TestCase;
+use function file_get_contents;
 
 class OrangeDataClientTest extends TestCase
 {
@@ -26,13 +26,14 @@ class OrangeDataClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $signKey = __DIR__.'/../private_key_test.xml';
+        $signKey = file_get_contents(__DIR__.'/../private_key_test.xml');
         $sslkey = __DIR__.'/../client.key';
         $sslcert = __DIR__.'/../client.crt';
         $cainfo = __DIR__.'/../cacert.pem';
 
         $this->client = new OrangeDataClient(
             new Client([
+                'base_uri' => 'https://apip.orangedata.ru:2443',
                 'curl' => [
                     CURLOPT_SSLKEY => $sslkey,
                     CURLOPT_SSLCERT => $sslcert,
@@ -107,8 +108,5 @@ class OrangeDataClientTest extends TestCase
     {
         $r = $this->client->getStatus($inn, $documentId);
         $this->assertEquals($statusCode, $r->getStatusCode());
-        $this->assertArrayHasKey('processedAt', $r->toArray());
-        $processedAt = new DateTimeImmutable($r->toArray()['processedAt']);
-        $this->assertNotFalse($processedAt);
     }
 }
