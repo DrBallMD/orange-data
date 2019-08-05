@@ -16,7 +16,6 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Order implements JsonSerializable
 {
-
     /**
      * @var UuidInterface
      */
@@ -146,17 +145,10 @@ class Order implements JsonSerializable
         return $this->content->getPositions();
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id->toString(),
+            'id' => (string)$this->id,
             'inn' => $this->inn,
             'key' => $this->inn,
             'group' => $this->group,

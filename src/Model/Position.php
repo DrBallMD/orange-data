@@ -15,7 +15,6 @@ use function substr;
  */
 class Position implements JsonSerializable
 {
-
     /**
      * @var string
      */
@@ -45,6 +44,26 @@ class Position implements JsonSerializable
      * @var int
      */
     private $paymentSubjectType;
+
+    /**
+     * @var null|int
+     */
+    private $agentType;
+
+    /**
+     * @var AgentInfo
+     */
+    private $agentInfo;
+
+    /**
+     * @var null|string
+     */
+    private $supplierINN;
+
+    /**
+     * @var null|SupplierInfo
+     */
+    private $supplierInfo;
 
     /**
      * Position constructor.
@@ -83,12 +102,49 @@ class Position implements JsonSerializable
     }
 
     /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
+     * @return null|string
      */
+    public function getSupplierINN(): ?string
+    {
+        return $this->supplierINN;
+    }
+
+    /**
+     * @return null|SupplierInfo
+     */
+    public function getSupplierInfo(): ?SupplierInfo
+    {
+        return $this->supplierInfo;
+    }
+
+    /**
+     * @param null|string $supplierInn
+     * @param null|SupplierInfo $supplierInfo
+     *
+     * @return Position
+     */
+    public function setSupplier(string $supplierInn = null, SupplierInfo $supplierInfo = null): Position
+    {
+        $this->supplierINN = $supplierInn;
+        $this->supplierInfo = $supplierInfo;
+
+        return $this;
+    }
+
+    /**
+     * @param int|null $agentType
+     * @param AgentInfo|null $agentInfo
+     *
+     * @return Position
+     */
+    public function setAgent(int $agentType = null, AgentInfo $agentInfo = null): Position
+    {
+        $this->agentType = $agentType;
+        $this->agentInfo = $agentInfo;
+
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return [
@@ -98,6 +154,10 @@ class Position implements JsonSerializable
             'tax' => $this->tax,
             'paymentMethodType' => $this->paymentMethodType,
             'paymentSubjectType' => $this->paymentSubjectType,
+            'agentType' => $this->agentType,
+            'agentInfo' => $this->agentInfo,
+            'supplierINN' => $this->supplierINN,
+            'supplierInfo' => $this->supplierInfo,
         ];
     }
 }
