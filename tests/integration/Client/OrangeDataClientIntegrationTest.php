@@ -15,8 +15,8 @@ use OrangeData\Structure\Order;
 use OrangeData\Structure\Payment;
 use OrangeData\Structure\Position;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 use function file_get_contents;
+use function uniqid;
 
 class OrangeDataClientIntegrationTest extends TestCase
 {
@@ -49,7 +49,7 @@ class OrangeDataClientIntegrationTest extends TestCase
 
     private function createOrder(string $inn): Order
     {
-        return new Order((string)Uuid::uuid4(), $inn, $inn, $this->createContent(), 'Main');
+        return new Order(uniqid('', true), $inn, $inn, $this->createContent(), 'Main');
     }
 
     private function createContent(): Content
@@ -105,7 +105,7 @@ class OrangeDataClientIntegrationTest extends TestCase
      */
     public function testCreateOrder(Order $order, int $statusCode): void
     {
-        $r = $this->client->createFiscalCheck($order);
+        $r = $this->client->createOrder($order);
         $this->assertEquals($statusCode, $r->statusCode());
     }
 

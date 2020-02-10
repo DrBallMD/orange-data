@@ -11,13 +11,13 @@ use OrangeData\Structure\Order;
 use OrangeData\Structure\Payment;
 use OrangeData\Structure\Position;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use function uniqid;
 
 class OrderUnitTest extends TestCase
 {
     public function testSerialize(): void
     {
-        $encoded = json_encode(new Order((string)Uuid::uuid4(), '1234567890', '1234567890', $this->createContent()), JSON_PRESERVE_ZERO_FRACTION);
+        $encoded = json_encode(new Order(uniqid('', true), '1234567890', '1234567890', $this->createContent()), JSON_PRESERVE_ZERO_FRACTION);
         $this->assertJson($encoded);
     }
 

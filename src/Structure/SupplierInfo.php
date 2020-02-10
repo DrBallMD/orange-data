@@ -21,6 +21,22 @@ class SupplierInfo implements JsonSerializable
      */
     private $name;
 
+    /**
+     * @return string[]|null
+     */
+    public function getPhoneNumbers(): ?array
+    {
+        return $this->phoneNumbers;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
     public function jsonSerialize()
     {
         return [

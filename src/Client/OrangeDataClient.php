@@ -39,7 +39,7 @@ class OrangeDataClient implements OrangeDataClientInterface
         $this->signKey = $signKey;
     }
 
-    public function createFiscalCheck(Order $order): OrangeDataResponseInterface
+    public function createOrder(Order $order): OrangeDataResponseInterface
     {
         $body = new OrderCreateBody($order);
         return (new OrderCreateRequest(
@@ -52,6 +52,12 @@ class OrangeDataClient implements OrangeDataClientInterface
 
     public function getStatus(string $inn, string $orderId): OrangeDataResponseInterface
     {
-        return (new OrderStatusRequest($this->client, $inn, $orderId))->request();
+        return (
+            new OrderStatusRequest(
+                $this->client,
+                $inn,
+                $orderId
+            )
+        )->request();
     }
 }

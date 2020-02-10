@@ -184,6 +184,54 @@ class Position implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVat(): int
+    {
+        return $this->vat;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPaymentMethodType(): int
+    {
+        return $this->paymentMethodType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPaymentSubjectType(): int
+    {
+        return $this->paymentSubjectType;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAgentType(): ?int
+    {
+        return $this->agentType;
+    }
+
+    /**
+     * @return AgentInfo
+     */
+    public function getAgentInfo(): AgentInfo
+    {
+        return $this->agentInfo;
+    }
+
     public function jsonSerialize()
     {
         return [
