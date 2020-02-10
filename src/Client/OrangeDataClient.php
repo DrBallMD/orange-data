@@ -53,9 +53,11 @@ class OrangeDataClient implements OrangeDataClientInterface
     public function getStatus(string $inn, string $orderId): OrangeDataResponseInterface
     {
         return (
-            new OrderStatusRequest($this->client,
+            new OrderStatusRequest(
+                $this->client,
                 $inn,
-                $orderId)
+                $orderId
+            )
         )->request();
     }
 }
