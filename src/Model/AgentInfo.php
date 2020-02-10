@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <dm.anikeev@gmail.com>
  */
@@ -13,7 +15,6 @@ use JsonSerializable;
  */
 class AgentInfo implements JsonSerializable
 {
-
     /**
      * @var array|string[]
      */

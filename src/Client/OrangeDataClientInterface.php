@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Dmitry Anikeev <anikeev.dmitry@outlook.com>
  */
@@ -9,7 +11,6 @@ use OrangeData\Response\OrangeDataResponseInterface;
 
 interface OrangeDataClientInterface
 {
-
     /**
      * Признак агента
      */

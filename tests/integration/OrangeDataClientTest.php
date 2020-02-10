@@ -3,7 +3,7 @@
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Tests\unit;
+namespace OrangeData\Tests\integration;
 
 use Exception;
 use GuzzleHttp\Client;
@@ -26,10 +26,10 @@ class OrangeDataClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $signKey = file_get_contents(__DIR__.'/../private_key_test.xml');
-        $sslkey = __DIR__.'/../client.key';
-        $sslcert = __DIR__.'/../client.crt';
-        $cainfo = __DIR__.'/../cacert.pem';
+        $signKey = file_get_contents(__DIR__ . '/../private_key_test.xml');
+        $sslkey = __DIR__ . '/../client.key';
+        $sslcert = __DIR__ . '/../client.crt';
+        $cainfo = __DIR__ . '/../cacert.pem';
 
         $this->client = new OrangeDataClient(
             new Client([
@@ -92,7 +92,7 @@ class OrangeDataClientTest extends TestCase
     public function testCreateOrder(Order $order, int $statusCode): void
     {
         $r = $this->client->createOrder(json_encode($order, JSON_PRESERVE_ZERO_FRACTION));
-        $this->assertEquals($statusCode, $r->getStatusCode());
+        $this->assertEquals($statusCode, $r->statusCode());
     }
 
     /**
@@ -107,6 +107,6 @@ class OrangeDataClientTest extends TestCase
     public function testStatus(string $inn, string $documentId, int $statusCode): void
     {
         $r = $this->client->getStatus($inn, $documentId);
-        $this->assertEquals($statusCode, $r->getStatusCode());
+        $this->assertEquals($statusCode, $r->statusCode());
     }
 }

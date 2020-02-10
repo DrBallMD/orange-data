@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
