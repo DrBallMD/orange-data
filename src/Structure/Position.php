@@ -5,7 +5,7 @@ declare(strict_types=1);
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Model;
+namespace OrangeData\Structure;
 
 use JsonSerializable;
 use function htmlspecialchars;
@@ -13,10 +13,48 @@ use function substr;
 
 /**
  * Class Position
- * @package OrangeData\Model
+ * @package OrangeData\Structure
  */
 class Position implements JsonSerializable
 {
+    /**
+     * Ставка НДС
+     */
+    public const VAT_18 = 1; //18%
+    public const VAT_10 = 2; //10%
+    public const VAT_118 = 3; //18/118
+    public const VAT_110 = 4; //10/110
+    public const VAT_0 = 5; //0
+    public const VAT_NO = 6; //без НДС
+
+    /**
+     * Признак способа расчета
+     */
+    public const PAYMENT_METHOD_PREPAY = 1; //Предоплата 100%
+    public const PAYMENT_METHOD_PARTIAL_PREPAY = 2; //Частичная предоплата
+    public const PAYMENT_METHOD_ADVANCE = 3; //Аванс
+    public const PAYMENT_METHOD_FULL = 4; //Полный расчёт
+    public const PAYMENT_METHOD_PARTIAL_AND_CREDIT = 5; //Частичный расчёт и кредит
+    public const PAYMENT_METHOD_CREDIT_TRANSFER = 5; //Передача в кредит
+    public const PAYMENT_METHOD_CREDIT_PAYMENT = 6; //Оплата кредита
+
+    /**
+     * Признак предмета расчета
+     */
+    public const PAYMENT_SUBJECT_PRODUCT = 1; //Товар
+    public const PAYMENT_SUBJECT_EXCISABLE = 2; //Подакцизный товар
+    public const PAYMENT_SUBJECT_JOB = 3; //Работа
+    public const PAYMENT_SUBJECT_SERVICE = 4; //Услуга
+    public const PAYMENT_SUBJECT_GAMBLING_BET = 5; //Ставка азартной игры
+    public const PAYMENT_SUBJECT_GAMBLING_GAIN = 6; //Выигрыш азартной игры
+    public const PAYMENT_SUBJECT_LOTTERY_TICKET = 7; //Лотерейный билет
+    public const PAYMENT_SUBJECT_LOTTERY_WINNINGS = 8; //Выигрыш лотереи
+    public const PAYMENT_SUBJECT_RID = 9; //Предоставление РИД
+    public const PAYMENT_SUBJECT_PAYMENT = 10; //Платёж
+    public const PAYMENT_SUBJECT_AGENT_COMMISION = 11; //Агентское вознаграждение
+    public const PAYMENT_SUBJECT_COMPOSITE = 12; //Составной предмет расчета
+    public const PAYMENT_SUBJECT_OTHER = 13; //Иной предмет расчета
+
     /**
      * @var string
      */
@@ -35,7 +73,7 @@ class Position implements JsonSerializable
     /**
      * @var int
      */
-    private $tax;
+    private $vat;
 
     /**
      * @var int
@@ -69,20 +107,19 @@ class Position implements JsonSerializable
 
     /**
      * Position constructor.
-     *
-     * @param string $text
      * @param float $quantity
      * @param float $price
-     * @param int $tax
+     * @param int $vat
+     * @param string $text
      * @param int $paymentMethodType
      * @param int $paymentSubjectType
      */
-    public function __construct(string $text, float $quantity, float $price, int $tax, int $paymentMethodType, int $paymentSubjectType)
+    public function __construct(float $quantity, float $price, int $vat, string $text, int $paymentMethodType, int $paymentSubjectType)
     {
-        $this->text = htmlspecialchars(substr($text, 0, 128));
+        $this->text = $text;
         $this->quantity = $quantity;
         $this->price = $price;
-        $this->tax = $tax;
+        $this->vat = $vat;
         $this->paymentMethodType = $paymentMethodType;
         $this->paymentSubjectType = $paymentSubjectType;
     }
@@ -150,10 +187,10 @@ class Position implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'text' => $this->text,
+            'text' => htmlspecialchars(substr($this->text, 0, 128)),
             'quantity' => $this->quantity,
             'price' => $this->price,
-            'tax' => $this->tax,
+            'tax' => $this->vat,
             'paymentMethodType' => $this->paymentMethodType,
             'paymentSubjectType' => $this->paymentSubjectType,
             'agentType' => $this->agentType,

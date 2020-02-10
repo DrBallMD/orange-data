@@ -1,31 +1,33 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-namespace OrangeData\Client;
+namespace OrangeData\Sign;
 
-
+use OrangeData\Body\BodyInterface;
 use phpseclib\Crypt\RSA;
 use function base64_encode;
 
-class Sign implements SignInterface
+class Base64EncodedRsa256 implements SignInterface
 {
     /**
-     * @var string
+     * @var BodyInterface
      */
-    private $data;
+    private $body;
 
     /**
      * @var string
      */
     private $signKey;
 
-    public function __construct(string $data, string $signKey)
+    public function __construct(BodyInterface $body, string $signKey)
     {
-        $this->data = $data;
+        $this->body = $body;
         $this->signKey = $signKey;
     }
 
-    public function toString(): string
+    public function asString(): string
     {
         $rsa = new RSA();
         $rsa->setPrivateKey($this->signKey);
@@ -34,6 +36,6 @@ class Sign implements SignInterface
         $rsa->setMGFHash('sha256');
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
 
-        return base64_encode($rsa->sign($this->data));
+        return base64_encode($rsa->sign($this->body->asString()));
     }
 }

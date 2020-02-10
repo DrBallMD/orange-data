@@ -3,20 +3,22 @@
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Tests\integration;
+namespace OrangeData\Tests\Client;
 
 use Exception;
 use GuzzleHttp\Client;
 use OrangeData\Client\OrangeDataClient;
 use OrangeData\Client\OrangeDataClientInterface;
-use OrangeData\Client\OrangeDataClientInterface as Enum;
-use OrangeData\Model\Order;
-use OrangeData\Model\Payment;
-use OrangeData\Model\Position;
+use OrangeData\Structure\CheckClose;
+use OrangeData\Structure\Content;
+use OrangeData\Structure\Order;
+use OrangeData\Structure\Payment;
+use OrangeData\Structure\Position;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use function file_get_contents;
 
-class OrangeDataClientTest extends TestCase
+class OrangeDataClientIntegrationTest extends TestCase
 {
 
     /**
@@ -26,10 +28,10 @@ class OrangeDataClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $signKey = file_get_contents(__DIR__ . '/../private_key_test.xml');
-        $sslkey = __DIR__ . '/../client.key';
-        $sslcert = __DIR__ . '/../client.crt';
-        $cainfo = __DIR__ . '/../cacert.pem';
+        $signKey = file_get_contents(__DIR__ . '/../../private_key_test.xml');
+        $sslkey = __DIR__ . '/../../client.key';
+        $sslcert = __DIR__ . '/../../client.crt';
+        $cainfo = __DIR__ . '/../../cacert.pem';
 
         $this->client = new OrangeDataClient(
             new Client([
@@ -47,10 +49,22 @@ class OrangeDataClientTest extends TestCase
 
     private function createOrder(string $inn): Order
     {
-        return (new Order($inn, 'Main', Enum::TYPE_IN, '+79991234567', Enum::TAX_USN))
-            ->addPosition(new Position('Тестовый товар', 5, 10.0, Enum::VAT_NO, Enum::PAYMENT_METHOD_FULL,
-                Enum::PAYMENT_SUBJECT_SERVICE))
-            ->addPayment(new Payment(1, 50.0));
+        return new Order((string)Uuid::uuid4(), $inn, $inn, $this->createContent(), 'Main');
+    }
+
+    private function createContent(): Content
+    {
+        $payments = [
+            new Payment(1, 50.0)
+        ];
+        $positions = [
+            new Position( 5, 10.0, Position::VAT_NO, 'Тестовый товар',
+                Position::PAYMENT_METHOD_FULL,
+                Position::PAYMENT_SUBJECT_SERVICE)
+        ];
+        $checkClose = new CheckClose(CheckClose::TAX_USN, $payments);
+
+        return new Content(Content::TYPE_IN, '+79991234567', $positions, $checkClose);
     }
 
     public function orderProvider(): array
@@ -91,7 +105,7 @@ class OrangeDataClientTest extends TestCase
      */
     public function testCreateOrder(Order $order, int $statusCode): void
     {
-        $r = $this->client->createOrder(json_encode($order, JSON_PRESERVE_ZERO_FRACTION));
+        $r = $this->client->createFiscalCheck($order);
         $this->assertEquals($statusCode, $r->statusCode());
     }
 

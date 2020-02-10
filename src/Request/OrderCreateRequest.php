@@ -8,11 +8,11 @@ declare(strict_types=1);
 namespace OrangeData\Request;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
-use OrangeData\Client\SignInterface;
+use OrangeData\Body\BodyInterface;
 use OrangeData\Response\OrangeDataResponseInterface;
 use OrangeData\Response\OrderCreateResponse;
+use OrangeData\Sign\SignInterface;
 
 class OrderCreateRequest implements OrangeDataRequestInterface
 {
@@ -31,21 +31,22 @@ class OrderCreateRequest implements OrangeDataRequestInterface
     private $sign;
 
     /**
-     * @var string
+     * @var BodyInterface
      */
-    private $order;
+    private $body;
 
     /**
      * OrderCreateRequest constructor.
+     *
      * @param ClientInterface $client
      * @param SignInterface $sign
-     * @param string $order
+     * @param BodyInterface $body
      */
-    public function __construct(ClientInterface $client, SignInterface $sign, string $order)
+    public function __construct(ClientInterface $client, SignInterface $sign, BodyInterface $body)
     {
         $this->client = $client;
         $this->sign = $sign;
-        $this->order = $order;
+        $this->body = $body;
     }
 
     public function request(): OrangeDataResponseInterface
@@ -54,9 +55,9 @@ class OrderCreateRequest implements OrangeDataRequestInterface
             $r = $this->client->request(self::METHOD, self::URI, [
                 'headers' => [
                     'content-type' => 'application/json; charset=utf-8',
-                    'X-Signature' => $this->sign->toString(),
+                    'X-Signature' => $this->sign->asString(),
                 ],
-                'body' => $this->order,
+                'body' => $this->body->asString(),
             ]);
         } catch (RequestException $e) {
             if (!$e->hasResponse()) {

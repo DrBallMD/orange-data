@@ -8,9 +8,12 @@ declare(strict_types=1);
 namespace OrangeData\Client;
 
 use GuzzleHttp\ClientInterface as GuzzleClientInterface;
+use OrangeData\Body\OrderCreateBody;
 use OrangeData\Request\OrderCreateRequest;
 use OrangeData\Request\OrderStatusRequest;
 use OrangeData\Response\OrangeDataResponseInterface;
+use OrangeData\Sign\Base64EncodedRsa256;
+use OrangeData\Structure\Order;
 
 class OrangeDataClient implements OrangeDataClientInterface
 {
@@ -36,9 +39,15 @@ class OrangeDataClient implements OrangeDataClientInterface
         $this->signKey = $signKey;
     }
 
-    public function createOrder(string $order): OrangeDataResponseInterface
+    public function createFiscalCheck(Order $order): OrangeDataResponseInterface
     {
-        return (new OrderCreateRequest($this->client, new Sign($order, $this->signKey), $order))->request();
+        $body = new OrderCreateBody($order);
+        return (new OrderCreateRequest(
+            $this->client,
+            new Base64EncodedRsa256($body, $this->signKey),
+            $body
+        )
+        )->request();
     }
 
     public function getStatus(string $inn, string $orderId): OrangeDataResponseInterface

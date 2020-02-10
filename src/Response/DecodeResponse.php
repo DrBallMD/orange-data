@@ -23,7 +23,7 @@ class DecodeResponse
         $this->response = $response;
     }
 
-    public function decode(): array
+    public function asArray(): array
     {
         $datum = (array)json_decode(
             $this->response

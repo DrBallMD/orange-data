@@ -5,16 +5,24 @@ declare(strict_types=1);
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Model;
+namespace OrangeData\Structure;
 
 use JsonSerializable;
 
 /**
  * Class Content
- * @package OrangeData\Model
+ * @package OrangeData\Structure
  */
 class Content implements JsonSerializable
 {
+    /**
+     * Признак расчета
+     */
+    public const TYPE_IN = 1; //приход
+    public const TYPE_IN_RETURN = 2; //возврат прихода
+    public const TYPE_OUT = 3; //Расход
+    public const TYPE_OUT_RETURN = 4; //Возврат расхода
+
     /**
      * @var int
      */
@@ -37,28 +45,17 @@ class Content implements JsonSerializable
 
     /**
      * Content constructor.
-     *
      * @param int $type
      * @param string $customerContact
-     * @param int $taxationSystem
+     * @param array $positions
+     * @param CheckClose $checkClose
      */
-    public function __construct(int $type, string $customerContact, int $taxationSystem)
+    public function __construct(int $type, string $customerContact, array $positions, CheckClose $checkClose)
     {
         $this->type = $type;
         $this->customerContact = $customerContact;
-        $this->positions = [];
-        $this->checkClose = new CheckClose($taxationSystem);
-    }
-
-
-    public function addPosition(Position $position): void
-    {
-        $this->positions[] = $position;
-    }
-
-    public function addPayment(Payment $payment): void
-    {
-        $this->checkClose->addPayment($payment);
+        $this->positions = $positions;
+        $this->checkClose = $checkClose;
     }
 
     /**
@@ -80,11 +77,6 @@ class Content implements JsonSerializable
     public function getPositions(): array
     {
         return $this->positions;
-    }
-
-    public function getPayments(): array
-    {
-        return $this->checkClose->getPayments();
     }
 
     public function jsonSerialize()

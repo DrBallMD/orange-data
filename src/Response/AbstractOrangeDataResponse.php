@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace OrangeData\Response;
 
 use Psr\Http\Message\ResponseInterface;
-use function json_decode;
 
 abstract class AbstractOrangeDataResponse implements OrangeDataResponseInterface
 {
@@ -29,6 +28,6 @@ abstract class AbstractOrangeDataResponse implements OrangeDataResponseInterface
 
     public function asArray(): array
     {
-        return (new DecodeResponse($this->response))->decode();
+        return (new DecodeResponse($this->response))->asArray();
     }
 }
