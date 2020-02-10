@@ -67,11 +67,19 @@ class Content implements JsonSerializable
     }
 
     /**
-     * @param int $type
+     * @return string
      */
-    public function setType(int $type): void
+    public function getCustomerContact(): string
     {
-        $this->type = $type;
+        return $this->customerContact;
+    }
+
+    /**
+     * @return CheckClose
+     */
+    public function getCheckClose(): CheckClose
+    {
+        return $this->checkClose;
     }
 
     public function getPositions(): array

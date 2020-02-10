@@ -107,6 +107,14 @@ class Order implements JsonSerializable
         return $this->group;
     }
 
+    /**
+     * @return Content
+     */
+    public function getContent(): Content
+    {
+        return $this->content;
+    }
+
     public function jsonSerialize()
     {
         return [

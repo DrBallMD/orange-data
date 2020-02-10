@@ -54,6 +54,14 @@ class CheckClose implements JsonSerializable
         return $this->payments;
     }
 
+    /**
+     * @return int
+     */
+    public function getTaxationSystem(): int
+    {
+        return $this->taxationSystem;
+    }
+
     public function jsonSerialize()
     {
         return [

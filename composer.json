@@ -15,7 +15,6 @@
         "php": ">=7.1",
         "ext-json": "*",
         "ext-curl": "*",
-        "ramsey/uuid": "^3.0",
         "guzzlehttp/guzzle": "^6.3",
         "psr/http-message": "~1.0",
         "phpseclib/phpseclib": "~2.0"

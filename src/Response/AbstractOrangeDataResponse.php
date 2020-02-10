@@ -28,6 +28,15 @@ abstract class AbstractOrangeDataResponse implements OrangeDataResponseInterface
 
     public function asArray(): array
     {
-        return (new DecodeResponse($this->response))->asArray();
+        $datum = (array)json_decode(
+            $this->response
+                ->getBody()
+                ->getContents(),
+            true
+        );
+
+        $datum['headers'] = $this->response->getHeaders();
+
+        return $datum;
     }
 }
