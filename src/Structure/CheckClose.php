@@ -1,21 +1,32 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Model;
+namespace OrangeData\Structure;
 
 use JsonSerializable;
 
 /**
  * Class CheckClose
- * @package OrangeData\Model
+ * @package OrangeData\Structure
  */
 class CheckClose implements JsonSerializable
 {
+    /**
+     * Система налогообложения
+     */
+    public const TAX_OSN = 0; //общая
+    public const TAX_USN = 1; //упрощенная
+    public const TAX_USN_MINUS = 2; //упрощенная минус расходы
+    public const TAX_ENVD = 3; //енвд
+    public const TAX_ESN = 4; //есн
+    public const TAX_PATENT = 5; //патент
 
     /**
-     * @var array
+     * @var array|Payment[]
      */
     private $payments;
 
@@ -28,18 +39,13 @@ class CheckClose implements JsonSerializable
      * CheckClose constructor.
      *
      * @param int $taxationSystem
+     * @param array $payments
      */
-    public function __construct(int $taxationSystem)
+    public function __construct(int $taxationSystem, array $payments)
     {
         $this->taxationSystem = $taxationSystem;
-        $this->payments = [];
+        $this->payments = $payments;
     }
-
-    public function addPayment(Payment $payment): void
-    {
-        $this->payments[] = $payment;
-    }
-
     /**
      * @return array
      */
@@ -48,13 +54,6 @@ class CheckClose implements JsonSerializable
         return $this->payments;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize()
     {
         return [

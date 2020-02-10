@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Dmitry Anikeev <anikeev.dmitry@outlook.com>
  */
@@ -6,43 +8,23 @@
 namespace OrangeData\Client;
 
 use OrangeData\Response\OrangeDataResponseInterface;
+use OrangeData\Structure\Order;
 
 interface OrangeDataClientInterface
 {
-
     /**
-     * Признак расчета
+     * Признак агента
      */
-    public const TYPE_IN = 1; //приход
-    public const TYPE_IN_RETURN = 2; //возврат прихода
+    public const AGENT_TYPE_BANK_AGENT = 1; //Банковский платежный агент
+    public const AGENT_TYPE_BANK_SUB_AGENT = 2; //Банковский платежный субагент
+    public const AGENT_TYPE_PAYING_AGENT = 3; //Платежный агент
+    public const AGENT_TYPE_PAYING_SUB_AGENT = 4; //Платежный субагент
+    public const AGENT_TYPE_ATTORNEY = 5; //Поверенный
+    public const AGENT_TYPE_COMISSIONER = 6; //Комиссионер
+    public const AGENT_TYPE_OTHER = 7; //Иной агент
 
-    /**
-     * Система налогообложения
-     */
-    public const TAX_USN = 1; //упрощенная
-    public const TAX_USN_MINUS = 2; //упрощенная минус расходы
 
-    /**
-     * Ставка НДС
-     */
-    public const VAT_NO = 6;
-
-    /**
-     * Признак способа расчета
-     */
-    public const PAYMENT_METHOD_FULL = 4;
-
-    /**
-     * Признак предмета расчета
-     */
-    public const PAYMENT_SUBJECT_SERVICE = 4;
-
-    /**
-     * Тип оплаты
-     */
-    public const PAYING_CASH = 1;
-
-    public function createOrder(string $order): OrangeDataResponseInterface;
+    public function createFiscalCheck(Order $order): OrangeDataResponseInterface;
 
     public function getStatus(string $inn, string $orderId): OrangeDataResponseInterface;
 }

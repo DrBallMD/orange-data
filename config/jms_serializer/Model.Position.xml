@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="OrangeData\Model\Position" exclusion-policy="NONE">
+    <class name="OrangeData\Structure\Position" exclusion-policy="NONE">
         <property name="text" type="string"/>
         <property name="quantity" type="float"/>
         <property name="price" type="float"/>

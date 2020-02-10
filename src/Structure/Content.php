@@ -1,18 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Model;
+namespace OrangeData\Structure;
 
 use JsonSerializable;
 
 /**
  * Class Content
- * @package OrangeData\Model
+ * @package OrangeData\Structure
  */
 class Content implements JsonSerializable
 {
+    /**
+     * Признак расчета
+     */
+    public const TYPE_IN = 1; //приход
+    public const TYPE_IN_RETURN = 2; //возврат прихода
+    public const TYPE_OUT = 3; //Расход
+    public const TYPE_OUT_RETURN = 4; //Возврат расхода
 
     /**
      * @var int
@@ -25,7 +34,7 @@ class Content implements JsonSerializable
     private $customerContact;
 
     /**
-     * @var array
+     * @var array|Position[]
      */
     private $positions;
 
@@ -36,28 +45,17 @@ class Content implements JsonSerializable
 
     /**
      * Content constructor.
-     *
      * @param int $type
      * @param string $customerContact
-     * @param int $taxationSystem
+     * @param array $positions
+     * @param CheckClose $checkClose
      */
-    public function __construct(int $type, string $customerContact, int $taxationSystem)
+    public function __construct(int $type, string $customerContact, array $positions, CheckClose $checkClose)
     {
         $this->type = $type;
         $this->customerContact = $customerContact;
-        $this->positions = [];
-        $this->checkClose = new CheckClose($taxationSystem);
-    }
-
-
-    public function addPosition(Position $position): void
-    {
-        $this->positions[] = $position;
-    }
-
-    public function addPayment(Payment $payment): void
-    {
-        $this->checkClose->addPayment($payment);
+        $this->positions = $positions;
+        $this->checkClose = $checkClose;
     }
 
     /**
@@ -81,18 +79,6 @@ class Content implements JsonSerializable
         return $this->positions;
     }
 
-    public function getPayments(): array
-    {
-        return $this->checkClose->getPayments();
-    }
-
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize()
     {
         return [

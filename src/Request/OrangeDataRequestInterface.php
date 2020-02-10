@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
@@ -9,6 +11,5 @@ use OrangeData\Response\OrangeDataResponseInterface;
 
 interface OrangeDataRequestInterface
 {
-
-    public function request($method, $uri, array $options = []): OrangeDataResponseInterface;
+    public function request(): OrangeDataResponseInterface;
 }

@@ -1,18 +1,28 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @author Anikeev Dmitry <anikeev.dmitry@outlook.com>
  */
 
-namespace OrangeData\Model;
+namespace OrangeData\Structure;
 
 use JsonSerializable;
 
 /**
  * Class Payment
- * @package OrangeData\Model
+ * @package OrangeData\Structure
  */
 class Payment implements JsonSerializable
 {
+    /**
+     * Тип оплаты
+     */
+    public const PAYING_CASH = 1; //Cумма по чеку наличными
+    public const PAYING_EMONEY = 2; //Сумма по чеку электронными
+    public const PAYING_ADVANCE = 14; //Сумма по чеку предоплатой (зачетом аванса и (или) предыдущих платежей)
+    public const PAYING_CREDIT = 3; //Сумма по чеку постоплатой (в кредит)
+    public const PAYING_BSO = 4; //Сумма по чеку (БСО) встречным предоставлением
 
     /**
      * @var int
@@ -52,13 +62,6 @@ class Payment implements JsonSerializable
         return $this->amount;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
     public function jsonSerialize()
     {
         return [
